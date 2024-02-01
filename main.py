@@ -1,3 +1,4 @@
+import os.path
 import random
 import sys
 
@@ -9,6 +10,11 @@ while(choice != 3):
     if choice == 1: # if the user chooses 1, the program will register them
         print("Registering...")
         id = random.randint(1000, 9999) # generates a random 4 digit number
+        if os.path.exists(str(id)+'.txt'): # checks if the file with the name of the generated id exists
+            id = random.randint(1000, 9999)
+            if os.path.exists(str(id)+'.txt'):
+                print("Sorry, we couldn't generate an ID for you. Please try again later.")
+                sys.exit()
         file = open(str(id)+'.txt', 'w') # creates a file with the name of the generated id
         print("Your ID is: " + str(id) + ". Please remember it!" + "\n")
         password = input("Password: ")
@@ -29,5 +35,9 @@ while(choice != 3):
     elif choice == 3: # if the user chooses 3, the program will exit
         print("Exiting...")
         sys.exit() # exits the program
+    else:
+        print("Invalid choice!")
+
+
 
 
