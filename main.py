@@ -18,6 +18,9 @@ while(choice != 3):
         file = open(str(id)+'.txt', 'w') # creates a file with the name of the generated id
         print("Your ID is: " + str(id) + ". Please remember it!" + "\n")
         password = input("Password: ")
+        while(len(password) <= 8): # checks if the password is less than 8 characters
+            print("Password must be at least 8 characters long!")
+            password = input("Password: ")
         file.write(password) # writes the password to the file
         file.close()
         print("Registered successfully!")
@@ -26,12 +29,18 @@ while(choice != 3):
         print("Please enter your ID and password")
         id = int(input("ID: "))
         file = open(str(id)+'.txt', 'r') # opens the file with the name of the id
+        chances = 3  # sets the chances to 3 so the user can try 3 times
         password = input("Password: ")
-        if password == file.read(): # reads the file and checks if the password is correct
-            print("Logged in successfully!")
-            file.close()
-        else:
-            print("Wrong password!")
+        while(password != file.read()): # reads the file and checks if the password is correct
+            chances -= 1
+            print("Wrong password! You have " + str(chances) + " chances left.")
+            if chances == 0:
+                print("You've guessed wrong to many times. Exiting...")
+                sys.exit()
+            file.seek(0) # sets the file's cursor to the beginning of the file
+            password = input("Password: ")
+        print("Logged in successfully!")
+        file.close()
     elif choice == 3: # if the user chooses 3, the program will exit
         print("Exiting...")
         sys.exit() # exits the program
